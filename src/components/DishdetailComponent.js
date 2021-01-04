@@ -24,7 +24,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }           
 
     toggleModal() {
@@ -114,15 +114,15 @@ function RenderDish({dish}) {
     );
 }
 
-function RenderComments({comments, addComment, dishId}) {
+function RenderComments({comments, postComment, dishId}) {
     if (comments != null) {
         const comments_list = comments.map((comment) => {
             return(
                 <div>
-                    <label className="mt-3">{comment.comment}</label>
-                    <label className="mt-3">
+                    <p>{comment.comment}</p>
+                    <p>
                         -- {comment.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
-                    </label>
+                    </p>
                 </div>
             );
         });
@@ -130,7 +130,7 @@ function RenderComments({comments, addComment, dishId}) {
             <div>
                 <h4>Comments</h4>
                 {comments_list}
-                <CommentForm dishId={dishId} addComment={addComment} />
+                <CommentForm dishId={dishId} postComment={postComment} />
             </div>
         );
     } else  {
@@ -177,7 +177,7 @@ const  DishDetail = (props) => {
                 </div>
                 <div className="col-12 col-md-5 m-1">
                 <RenderComments comments={props.comments}
-                                addComment={props.addComment}
+                                postComment={props.postComment}
                                 dishId={props.dish.id}/>
                 </div>
             </div>
